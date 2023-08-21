@@ -23,6 +23,8 @@ download the files using zip file or
 place icon .png in `~/.icons` folder
 
 place script .sh in folder of your choice, ie. `/opt/EZ_Privacy/`
+and make it executable :
+`sudo chmod 755 ez_privacy.sh`
 
 place launcher .desktop in `~/.local/share/applications/`
 modify the `EXEC` line in the .desktop file as needed using your favorite text editor, 
