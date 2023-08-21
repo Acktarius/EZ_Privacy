@@ -1,5 +1,5 @@
 # EZ_Privacy
-**wizard installer for privacy apps from flathub :**
+**wizard installer for privacy apps from flathub for Ubuntu User.**
 
 * ### Authenticator, by Bilal Elmoussaoui : Generate Two-Factor Codes
 * ### Obfuscate, by Bilal Elmoussaoui : Censor private information  
