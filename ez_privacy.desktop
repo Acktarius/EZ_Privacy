@@ -1,0 +1,13 @@
+[Desktop Entry]
+#file to be place in ~/.local/share/applications folder
+Type=Application
+Name=EZ Privacy
+#route to your script
+Exec=gnome-terminal --title=EZ_Privacy --active --geometry=100x40 -- bash -c 'sudo /home/ccxbox3/Documents/ez_privacy.sh ; exit'
+#route to your icon
+Icon=ez_privacy_logo3_128.png
+Hidden=false
+NoDisplay=false
+Terminal=false
+Comment=Wizard to install privacy tools 
+X-GNOME-Autostart-enabled=true
