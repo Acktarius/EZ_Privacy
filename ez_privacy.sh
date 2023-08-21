@@ -76,7 +76,7 @@ s=$?
 if [[ $s -ne 0 ]]; then echo "error during flatpak installation"; sleep 2; exit; fi
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 s=$?
-if [[ $s -ne 0 ]]; then echo "error during repo upodate"; sleep 2; exit; fi
+if [[ $s -ne 0 ]]; then echo "error during repo update"; sleep 2; exit; fi
 sleep 2
 presentation
 else
