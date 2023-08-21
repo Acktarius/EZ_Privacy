@@ -3,7 +3,7 @@
 Type=Application
 Name=EZ Privacy
 #route to your script
-Exec=gnome-terminal --title=EZ_Privacy --active --geometry=100x40 -- bash -c 'sudo /home/ccxbox3/Documents/ez_privacy.sh ; exit'
+Exec=gnome-terminal --title=EZ_Privacy --active --geometry=100x40 -- bash -c 'sudo /opt/EZ_Privacy/ez_privacy.sh ; exit'
 #route to your icon
 Icon=ez_privacy_logo3_128.png
 Hidden=false
