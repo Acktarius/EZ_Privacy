@@ -1,5 +1,5 @@
 # EZ_Privacy
-**wizard installer for privacy apps from flathub for Ubuntu User.**
+**wizard installer for privacy apps from flathub for Ubuntu users.**
 
 * ### Authenticator, by Bilal Elmoussaoui : Generate Two-Factor Codes
 * ### Obfuscate, by Bilal Elmoussaoui : Censor private information  
@@ -17,6 +17,9 @@ also refer to*
 **This wizard installers aims to regroup apps dedicated to privacy and facilitate their installation**
 #
 ## Install:
+download the files using zip file or
+`git clone https://github.com/Acktarius/EZ_Privacy.git`
+
 place icon .png in `~/.icons` folder
 
 place script .sh in folder of your choice, ie. `/opt/EZ_Privacy/`
