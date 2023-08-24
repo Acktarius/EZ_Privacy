@@ -10,7 +10,7 @@
   https://onionshare.org/
 * ### Kleopatra, by KDE : Certificate Manager
   https://apps.kde.org/kleopatra/
-* ### Session, by Oxen Project : Private messenge
+* ### Session, by Oxen Project : Private messenger
   https://getsession.org/
 
 *Please refer to the different developpers website for more informations, license and copyrights,
