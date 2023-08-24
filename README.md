@@ -8,6 +8,8 @@
   https://github.com/ADBeveridge
 * ### Onion Share, by Micah Lee : Securely and anonymously share files 
   https://onionshare.org/
+* ### Kleopatra, by KDE : Certificate Manager
+  https://apps.kde.org/kleopatra/
 
 *Please refer to the different developpers website for more informations, license and copyrights,
 also refer to* 
