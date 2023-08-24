@@ -48,6 +48,10 @@ echo -e "#${WHITE}  File Shredder, ${GRIS}by Alan Beveridge :${WHITE} \t Securel
 echo -e "#\t\t\t\t\t\t\t\t${LINK}https://github.com/ADBeveridge${TURNOFF}${GRIS} #"
 echo -e "#${WHITE}  Onion Share, ${GRIS}by Micah Lee :${WHITE} \t\t Securely and anonymously share files${TURNOFF}${GRIS}                  #"
 echo -e "#\t\t\t\t\t\t\t\t${LINK}https://onionshare.org/${TURNOFF}${GRIS}        #"            
+echo -e "#${WHITE}  Kleopatra, ${GRIS}by KDE :${WHITE} \t\t certificate manager and a universal crypto GUI${TURNOFF}${GRIS}                #"
+echo -e "#\t\t\t\t\t\t\t\t${LINK}https://apps.kde.org/kleopatra/${TURNOFF}${GRIS}#"
+echo -e "#${WHITE}  Session, ${GRIS}by Oxen Project :${WHITE} \t\t private messenger${TURNOFF}${GRIS}                                     #"
+echo -e "#\t\t\t\t\t\t\t\t${LINK}https://getsession.org/${TURNOFF}${GRIS}        #"  
 echo -e "#${GRIS}                                                                                              #"
 echo -e "################################################################################################${TURNOFF}\n"
 }
@@ -87,7 +91,7 @@ fi
 fi
 
 #list of Application
-listapps=( "Authenticator" "Obfuscate" "File_Shredder" "OnionShare" )
+listapps=( "Authenticator" "Obfuscate" "File_Shredder" "OnionShare" "Kleopatra" "Session" )
 
 #list application installed
 declare -a apps
@@ -102,6 +106,12 @@ if [[ $fileshredder -gt 0 ]]; then apps[2]=1; else apps[2]=0; fi
 
 onionshare=$(flatpak list --app | grep "OnionShare" -c )
 if [[ $onionshare -gt 0 ]]; then apps[3]=1; else apps[3]=0; fi
+
+kleopatra=$(flatpak list --app | grep "Kleopatra" -c )
+if [[ $kleopatra -gt 0 ]]; then apps[4]=1; else apps[4]=0; fi
+
+session=$(flatpak list --app | grep "Session" -c )
+if [[ $session -gt 0 ]]; then apps[5]=1; else apps[5]=0; fi
 
 declare -a installable
 declare -a removable
@@ -125,7 +135,7 @@ for q in "${!installable[@]}"; do
 zeninstallable+="FALSE ${installable[$q]} "
 done
 sleep 5
-zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to Install" \
+zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to INSTALL" \
 --column "Select" --column "App" \
 $zeninstallable
 )
@@ -156,6 +166,12 @@ echo -e "\n${WHITE}Install ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		"OnionShare")
 		flatpak install flathub org.onionshare.OnionShare
 		;;
+		"Kleopatra")
+		flatpak install flathub org.kde.kleopatra
+		;;
+		"Session")
+		flatpak install flathub network.loki.Session
+		;;
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
 		;;
@@ -170,13 +186,13 @@ if [[ ${#removable[@]} -eq 0 ]]; then
 echo -e "${ORANGE}nothing to remove"
 else
 presentation
-echo -e "${WHITE}Apps already installed,\n\t and could be uninstall :  ${ORANGE}${removable[@]}"
+echo -e "${WHITE}Apps already installed,\n\t and could be uninstall: ${ORANGE}${removable[@]}"
 echo -e "\n${ORANGE}UNInstall... ?\n"
 for l in "${!removable[@]}"; do
 zenremovable+="FALSE ${removable[$l]} "
 done
 sleep 5
-zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to remove" \
+zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to REMOVE" \
 --column "Select" --column "App" \
 $zenremovable
 )
@@ -206,6 +222,12 @@ echo -e "\n${WHITE}Remove ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		;;
 		"OnionShare")
 		flatpak uninstall --delete-data org.onionshare.OnionShare
+		;;
+		"Kleopatra")
+		flatpak uninstall --delete-data org.kde.kleopatra
+		;;
+		"Session")
+		flatpak uninstall --delete-data network.loki.Session
 		;;
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
