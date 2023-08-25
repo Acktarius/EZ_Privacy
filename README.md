@@ -20,7 +20,7 @@ also refer to*
 #
 **This wizard installers aims to regroup apps dedicated to privacy and facilitate their installation**
 #
-## Install:
+## Install option#1:
 download the files using zip file or
 `git clone https://github.com/Acktarius/EZ_Privacy.git`
 
@@ -39,5 +39,8 @@ ie. `Exec=gnome-terminal --title=EZ_Privacy --active --geometry=100x40 -- bash -
 logout and log back in,
   the icon should now be available
 
+## Install option#2:
+Right click on the deb file, select Software install.
+import the key : `gpg --keyserver hkp://keyserver.ubuntu.com --search-key 84B90020` to check signature.
   ## Run :
   click on the icon, enjoy !
