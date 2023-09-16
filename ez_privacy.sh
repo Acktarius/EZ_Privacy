@@ -135,7 +135,7 @@ for q in "${!installable[@]}"; do
 zeninstallable+="FALSE ${installable[$q]} "
 done
 sleep 5
-zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to INSTALL" \
+zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 30 --title "Apps you want to INSTALL" \
 --column "Select" --column "App" \
 $zeninstallable
 )
@@ -192,7 +192,7 @@ for l in "${!removable[@]}"; do
 zenremovable+="FALSE ${removable[$l]} "
 done
 sleep 5
-zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 15 --title "Apps you want to REMOVE" \
+zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 30 --title "Apps you want to REMOVE" \
 --column "Select" --column "App" \
 $zenremovable
 )
