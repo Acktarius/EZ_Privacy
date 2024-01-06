@@ -44,3 +44,8 @@ Right click on the deb file, select Software install.
 import the key : `gpg --keyserver hkp://keyserver.ubuntu.com --search-key 84B90020` to check signature.
   ## Run :
   click on the icon, enjoy !
+
+---
+
+## Contact
+https://discord.gg/SWP6gGMe
