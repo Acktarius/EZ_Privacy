@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 # this file is subject to Licence
-# Copyright (c) 2023, Acktarius
+# Copyright (c) 2023-2024, Acktarius
 ################################################################################
 #Couleurs
 case "$TERM" in
@@ -28,7 +28,7 @@ esac
 presentation () {
 clear
 echo -e "${GRIS}# this file is subject to Licence,                                                             #"
-echo -e "${GRIS}# Copyright (c) 2023, Acktarius                                                                #"
+echo -e "${GRIS}# Copyright (c) 2023-2024, Acktarius                                                           #"
 echo -e "${GRIS}#                                                                                              #"                                                                  
 echo -e "# ${ORANGE}'########${GRIS}:${ORANGE}'########${GRIS}::::${ORANGE}'########${GRIS}::${ORANGE}'########${GRIS}::${ORANGE}'####:'##${GRIS}::::${ORANGE}'##${GRIS}::::${ORANGE}'###${GRIS}:::::${ORANGE}'######${GRIS}::${ORANGE}'##${GRIS}:::${ORANGE}'##${GRIS}:#"
 echo -e "# ${ORANGE}##${GRIS}.....::..... ${ORANGE}##${GRIS}::::: ${ORANGE}##${GRIS}.... ${ORANGE}##${GRIS}: ${ORANGE}##${GRIS}.... ${ORANGE}##${GRIS}:. ${ORANGE}##${GRIS}:: ${ORANGE}##${GRIS}:::: ${ORANGE}##${GRIS}:::${ORANGE}'## ##${GRIS}:::${ORANGE}'##${GRIS}... ${ORANGE}##${GRIS}:. ${ORANGE}##${GRIS}:${ORANGE}'##${GRIS}:: #"
@@ -57,38 +57,6 @@ echo -e "#######################################################################
 }
 
 presentation
-
-#Test zenity installed
-if [[ ! -f /bin/zenity ]]; then
-echo -e "${ORANGE}Zenity is needed for this script${GRIS}\nto install it: ${WHITE}sudo apt install zenity${TURNOFF}\n"
-exit
-fi
-#Test flatpak installed
-if [[ ! -f /bin/flatpak ]]; then
-echo -e "${ORANGE}Flatpak is needed to install the apps${GRIS}\n"
-sleep 1
-iflatpak=$(zenity --question --title "Flatpak installation" --width 400 --height 100 --text "Do you wish to proceed ?")
-if [[ $iflatpak -eq 0 ]]; then
-add-apt-repository ppa:flatpak/stable 
-s=$?
-if [[ $s -ne 0 ]]; then echo "error updating repository"; sleep 2; exit; fi
-sudo apt-get update
-s=$?
-if [[ $s -ne 0 ]]; then echo "error during apt update"; sleep 2; exit; fi
-sudo apt-get install flatpak
-s=$?
-if [[ $s -ne 0 ]]; then echo "error during flatpak installation"; sleep 2; exit; fi
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-s=$?
-if [[ $s -ne 0 ]]; then echo "error during repo update"; sleep 2; exit; fi
-sleep 2
-presentation
-else
-echo "See you later !"
-sleep 1
-exit
-fi
-fi
 
 #list of Application
 listapps=( "Authenticator" "Obfuscate" "File_Shredder" "OnionShare" "Kleopatra" "Session" )
@@ -127,15 +95,17 @@ done
 
 if [[ ${#installable[@]} -eq 0 ]]; then
 echo -e "${ORANGE}All the Apps already installed.\n"
-
 else
-echo -e "${WHITE}Apps available to install : ${ORANGE}${installable[@]}"
+echo -e "${WHITE}Apps available to install :"
+for ((i=0; i < ${#installable[@]}; i++)); do
+echo -e "\t\t\t\t${ORANGE}${installable[i]}"
+done
 echo -e "\n${ORANGE}Install... ?\n"
 for q in "${!installable[@]}"; do
 zeninstallable+="FALSE ${installable[$q]} "
 done
 sleep 5
-zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 30 --title "Apps you want to INSTALL" \
+zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to INSTALL" \
 --column "Select" --column "App" \
 $zeninstallable
 )
@@ -186,13 +156,16 @@ if [[ ${#removable[@]} -eq 0 ]]; then
 echo -e "${ORANGE}nothing to remove"
 else
 presentation
-echo -e "${WHITE}Apps already installed,\n\t and could be uninstall: ${ORANGE}${removable[@]}"
+echo -e "${WHITE}Apps already installed,\n\t and could be uninstall:"
+for ((i=0; i < ${#removable[@]}; i++)); do
+echo -e "\t\t\t\t${ORANGE}${removable[i]}"
+done
 echo -e "\n${ORANGE}UNInstall... ?\n"
 for l in "${!removable[@]}"; do
 zenremovable+="FALSE ${removable[$l]} "
 done
 sleep 5
-zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 30 --title "Apps you want to REMOVE" \
+zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to REMOVE" \
 --column "Select" --column "App" \
 $zenremovable
 )
