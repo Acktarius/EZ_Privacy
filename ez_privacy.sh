@@ -97,14 +97,16 @@ if [[ ${#installable[@]} -eq 0 ]]; then
 echo -e "${ORANGE}All the Apps already installed.\n"
 else
 echo -e "${WHITE}Apps available to install :"
-for ((i=0; i < ${#installable[@]}; i++)); do
+for i in ${!installable[@]}; do
+if [[ -n ${installable[i]} ]]; then
 echo -e "\t\t\t\t${ORANGE}${installable[i]}"
+fi
 done
 echo -e "\n${ORANGE}Install... ?\n"
 for q in "${!installable[@]}"; do
 zeninstallable+="FALSE ${installable[$q]} "
 done
-sleep 5
+sleep 2
 zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to INSTALL" \
 --column "Select" --column "App" \
 $zeninstallable
@@ -145,7 +147,7 @@ echo -e "\n${WHITE}Install ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
 		;;
-	esac	
+	esac
 done
 fi
 fi
@@ -157,14 +159,16 @@ echo -e "${ORANGE}nothing to remove"
 else
 presentation
 echo -e "${WHITE}Apps already installed,\n\t and could be uninstall:"
-for ((i=0; i < ${#removable[@]}; i++)); do
+for  i in ${!removable[@]}; do
+if [[ -n ${removable[i]} ]]; then
 echo -e "\t\t\t\t${ORANGE}${removable[i]}"
+fi
 done
 echo -e "\n${ORANGE}UNInstall... ?\n"
 for l in "${!removable[@]}"; do
 zenremovable+="FALSE ${removable[$l]} "
 done
-sleep 5
+sleep 2
 zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to REMOVE" \
 --column "Select" --column "App" \
 $zenremovable
@@ -205,7 +209,7 @@ echo -e "\n${WHITE}Remove ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
 		;;
-	esac	
+	esac
 done
 flatpak uninstall --unused
 fi
