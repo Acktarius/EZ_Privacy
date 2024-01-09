@@ -21,6 +21,16 @@ also refer to*
 **This wizard installers aims to regroup apps dedicated to privacy and facilitate their installation**
 #
 ## Install option#1:
+
+## install dependencies  
+`sudo apt update`
+* Zenity  
+`sudo apt install zenity`  
+* Flatpak  
+`add-apt-repository ppa:flatpak/stable`   
+`apt-get install -y flatpak`   
+`flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`    
+
 download the files using zip file or
 `git clone https://github.com/Acktarius/EZ_Privacy.git`
 
@@ -39,9 +49,10 @@ ie. `Exec=gnome-terminal --title=EZ_Privacy --active --geometry=100x40 -- bash -
 logout and log back in,
   the icon should now be available
 
-## Install option#2:
-Right click on the deb file, select Software install.
+## Install option#2:  
 import the key : `gpg --keyserver hkp://keyserver.ubuntu.com --search-key 84B90020` to check signature.
+Right click on the deb file, select Software install.  
+
   ## Run :
   click on the icon, enjoy !
 
