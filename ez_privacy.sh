@@ -23,6 +23,8 @@ case "$TERM" in
         ;;
 esac
 
+#Variables
+user=$(id -nu 1000)
 
 #Presentation function
 presentation () {
@@ -48,18 +50,51 @@ echo -e "#${WHITE}  File Shredder, ${GRIS}by Alan Beveridge :${WHITE} \t Securel
 echo -e "#\t\t\t\t\t\t\t\t${LINK}https://github.com/ADBeveridge${TURNOFF}${GRIS} #"
 echo -e "#${WHITE}  Onion Share, ${GRIS}by Micah Lee :${WHITE} \t\t Securely and anonymously share files${TURNOFF}${GRIS}                  #"
 echo -e "#\t\t\t\t\t\t\t\t${LINK}https://onionshare.org/${TURNOFF}${GRIS}        #"            
-echo -e "#${WHITE}  Kleopatra, ${GRIS}by KDE :${WHITE} \t\t certificate manager and a universal crypto GUI${TURNOFF}${GRIS}                #"
+echo -e "#${WHITE}  Kleopatra, ${GRIS}by KDE :${WHITE} \t\t\t certificate manager and a universal crypto GUI${TURNOFF}${GRIS}        #"
 echo -e "#\t\t\t\t\t\t\t\t${LINK}https://apps.kde.org/kleopatra/${TURNOFF}${GRIS}#"
 echo -e "#${WHITE}  Session, ${GRIS}by Oxen Project :${WHITE} \t\t private messenger${TURNOFF}${GRIS}                                     #"
-echo -e "#\t\t\t\t\t\t\t\t${LINK}https://getsession.org/${TURNOFF}${GRIS}        #"  
-echo -e "#${GRIS}                                                                                              #"
+echo -e "#\t\t\t\t\t\t\t\t${LINK}https://getsession.org/${TURNOFF}${GRIS}        #"
+echo -e "#${WHITE}  LibreWolf, ${GRIS}by LibreWolf Community:${WHITE} \t custom version of firefox focused on Privacy${TURNOFF}${GRIS}\t       #"
+echo -e "#\t\t\t\t\t\t\t\t${LINK}https://librewolf.net/${TURNOFF}${GRIS}\t       #"   
+echo -e "${GRIS}#                                                                                              #"
+echo -e "#${WHITE} other Apps to consider :${TURNOFF}${GRIS}                                                                     #"
+echo -e "${GRIS}#                                                                                              #"
+echo -e "#${WHITE}  Keet, ${GRIS}by holepunch :${WHITE} \t\t P2P chat${TURNOFF}${GRIS}\t\t                               #"
+echo -e "#\t\t\t\t\t\t\t\t${LINK}https://keet.io/${TURNOFF}${GRIS}               #"              
 echo -e "################################################################################################${TURNOFF}\n"
 }
 
+keetInstall() {
+if [[ ! -d /home/${user}/.local/share/appimages ]]; then
+mkdir -p /home/${user}/.local/share/appimages
+fi
+wget https://keet.io/downloads/2.0.0/Keet-x64.tar.gz -O - | tar -xz -C /home/${user}/.local/share/appimages/ &> /dev/null
+wget https://keet.io/static/media/keet-logo.bbfeb7cae3dd60f6e845.png -O /home/${user}/.icons/keet.png &> /dev/null
+cat << EOF > /home/${user}/.local/share/applications/keet.desktop
+[Desktop Entry]
+Name=Keet
+Exec=/home/${user}/.local/share/appimages/Keet.AppImage %U
+Terminal=false
+Icon=keet.png
+Type=Application
+StartupWMClass=Keet
+X-AppImage-Version=1.0.1
+Comment=Keet
+MimeType=x-scheme-handler/holepunch;x-scheme-handler/punch;x-scheme-handler/pear
+EOF
+}
+keetUninstall() {
+rm -f /home/${user}/.local/share/applications/keet.desktop \
+/home/${user}/.icons/keet.png \
+${keetPathFile}
+}
+
+
+#MAIN
 presentation
 
 #list of Application
-listapps=( "Authenticator" "Obfuscate" "File_Shredder" "OnionShare" "Kleopatra" "Session" )
+listapps=("Authenticator" "Obfuscate" "File_Shredder" "OnionShare" "Kleopatra" "Session" "LibreWolf" "Keet")
 
 #list application installed
 declare -a apps
@@ -80,6 +115,14 @@ if [[ $kleopatra -gt 0 ]]; then apps[4]=1; else apps[4]=0; fi
 
 session=$(flatpak list --app | grep "Session" -c )
 if [[ $session -gt 0 ]]; then apps[5]=1; else apps[5]=0; fi
+
+
+if [[ $(flatpak list --app | grep "LibreWolf" -c ) -gt 0 ]]; then apps[6]=1; else apps[6]=0; fi
+
+keet=$(find /home/${user}/.local/share/applications -iname keet.desktop | grep "keet" -c )
+if [[ $keet -gt 0 ]]; then apps[7]=1 \
+keetPathFile=$(cat /home/${user}/.local/share/applications/keet.desktop | grep "Exec=" | cut -d "=" -f 2 | tr -s ' ' | cut -d " " -f 1)
+else apps[7]=0; fi
 
 declare -a installable
 declare -a removable
@@ -107,7 +150,7 @@ for q in "${!installable[@]}"; do
 zeninstallable+="FALSE ${installable[$q]} "
 done
 sleep 2
-zinstallable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to INSTALL" \
+zinstallable=$(zenity --list --checklist --height 320 --width 400 --timeout 20 --title "Apps you want to INSTALL" \
 --column "Select" --column "App" \
 $zeninstallable
 )
@@ -124,6 +167,7 @@ toinstall[r]=$(echo "$zinstallable" | cut -d "|" -f $(( $r + 1 )))
 done
 
 for app in "${toinstall[@]}"; do
+presentation
 echo -e "\n${WHITE}Install ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 	case $app in
 		"Authenticator")
@@ -143,6 +187,12 @@ echo -e "\n${WHITE}Install ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		;;
 		"Session")
 		flatpak install flathub network.loki.Session
+		;;
+		"Keet")
+		keetInstall
+		;;
+		"LibreWolf")
+		flatpak install flathub io.gitlab.librewolf-community
 		;;
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
@@ -169,7 +219,7 @@ for l in "${!removable[@]}"; do
 zenremovable+="FALSE ${removable[$l]} "
 done
 sleep 2
-zremovable=$(zenity --list --checklist --height 280 --width 400 --timeout 20 --title "Apps you want to REMOVE" \
+zremovable=$(zenity --list --checklist --height 320 --width 400 --timeout 20 --title "Apps you want to REMOVE" \
 --column "Select" --column "App" \
 $zenremovable
 )
@@ -186,6 +236,7 @@ toremove[m]=$(echo "$zremovable" | cut -d "|" -f $(( $m + 1 )))
 done
 
 for app in "${toremove[@]}"; do
+presentation
 echo -e "\n${WHITE}Remove ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 	case $app in
 		"Authenticator")
@@ -206,11 +257,18 @@ echo -e "\n${WHITE}Remove ${ORANGE}${app} ${WHITE}?${TURNOFF}"
 		"Session")
 		flatpak uninstall --delete-data network.loki.Session
 		;;
+		"Keet")
+		keetUninstall
+		;;
+		"LibreWolf")
+		flatpak uninstall --delete-data io.gitlab.librewolf-community
+		;;
 		*)
 		echo -e "${ORANGE}Something seems wrong${TURNOFF}"
 		;;
 	esac
 done
+echo -e "\n${GRIS}\t flatpak cleanup${TURNOFF}"
 flatpak uninstall --unused
 fi
 fi
