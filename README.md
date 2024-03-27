@@ -12,6 +12,10 @@
   https://apps.kde.org/kleopatra/
 * ### Session, by Oxen Project : Private messenger
   https://getsession.org/
+* ### LibreWolf, by LibreWolf Community : firefox fork focusing on privacy
+  https://getsession.org/
+* ### Keet, by Holepunch : P2P messenger
+  https://keet.io/
 
 *Please refer to the different developpers website for more informations, license and copyrights,
 also refer to* 
